@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Últimos Estrenos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #181818;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(to bottom, #32a8a8, #181818);
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .movie img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .movie img:hover {
+            transform: scale(1.05);
+        }
+
+        .coming-soon {
+            text-align: center;
+            margin: 20px;
+            font-size: 18px;
+            color: #aaa;
+        }
+
+        footer {
+            background-color: #222;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: #fff;
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #32a8a8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Últimos Estrenos</h1>
+    </header>
+
+    <div class="movies-grid" id="latest-releases">
+        <div class="movie" data-title="Intensamente">
+            <a href="https://www.example.com/insideout2" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_G9ITpZqbfU-48E47INoB-6gTAPTw1qSu4QMP5VOCAHGWJQ6Edwb5zAgj&s=10" alt="Intensamente"></a>
+            <p>Inside Out 2 <br> (Intensamente 2)</p>
+        </div>
+        <div class="movie" data-title="Emily en París">
+            <a href="https://www.example.com/emilyenparis" target="_blank"><img src="https://www.orientaserie.it/wp-content/uploads/2022/09/Emily-in-Paris-2-poster.jpeg" alt="Emily en París"></a>
+            <p>Emily en París - Temporada 3</p>
+        </div>
+        <div class="movie" data-title="Kung Fu Panda">
+            <a href="https://www.example.com/kungfupanda4" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqcy4JwgIxD2LUMe1lsYqHbpw_kdm7c9GaIF8PL1vPBdpw6AN_DSSbOk3G&s=10" alt="Kung Fu Panda"></a>
+            <p>Kung Fu Panda 4</p>
+        </div>
+        <div class="movie" data-title="American Murder">
+            <a href="https://www.example.com/americanmurder" target="_blank"><img src="https://m.media-amazon.com/images/M/MV5BNDIzMWZjNzYtMTcxMC00OTVkLWE2NDItYTdiNDhjNjRmYjdmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="American Murder"></a>
+            <p>American Murder: Laci Peterson</p>
+        </div>
+        <div class="movie" data-title="DeadPool">
+            <a href="https://www.example.com/deadpool3" target="_blank"><img src="https://i.ibb.co/m5qGfFr/dead-pool-3-oficial.png" alt="DeadPool"></a>
+            <p>DeadPool 3</p>
+        </div>
+        <div class="movie" data-title="The Tyrant">
+            <a href="https://www.example.com/thetyrant" target="_blank"><img src="https://image.tmdb.org/t/p/w94_and_h141_bestv2/14xKxbF3Si8m5u0m5yPj9ZGlEkj.jpg" alt="The Tyrant"></a>
+            <p>The Tyrant - Temporada 4</p>
+        </div>
+        <!-- Duplicando las películas -->
+        <div class="movie" data-title="Jackie Chan">
+            <a href="https://www.example.com/insideout2" target="_blank"><img src="https://m.media-amazon.com/images/I/51B4SWF3FAL._AC_UF1000,1000_QL80_.jpg" alt="Jackie Chan"></a>
+            <p>Jackie Chan</p>
+        </div>
+        <div class="movie" data-title="Tony Montana">
+            <a href="https://www.example.com/emilyenparis" target="_blank"><img src="https://i.pinimg.com/236x/53/61/39/53613989662f0a10490aed220144eb7e.jpg" alt="Tony Montana"></a>
+            <p>Tony Montana</p>
+        </div>
+        <div class="movie" data-title="Alien Romulus">
+            <a href="https://www.example.com/kungfupanda4" target="_blank"><img src="https://lumiere-a.akamaihd.net/v1/images/1_preview_alienromulus_latam_1sht_048_v2_simp_cmyk_c04c_74c20d70.jpeg?region=0%2C0%2C1240%2C1772" alt="Alien Romulus"></a>
+            <p>Alien Romulus</p>
+        </div>
+        <div class="movie" data-title="Mi Villano Fvorito">
+            <a href="https://www.example.com/americanmurder" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVQmiDf6prcDSCVXE8h31xiGLrSWbnIlWCNw&s" alt="Mi Villano Fvorito"></a>
+            <p>Mi Villano Fvorito 4</p>
+        </div>
+        <div class="movie" data-title="Tranpa En Altamar">
+            <a href="https://www.example.com/deadpool3" target="_blank"><img src="https://play-lh.googleusercontent.com/uoQ6a3V8AVw0gI_R_2nKKLKhcI8QwGIxnLbV3OXEcDpTWGzFeCxWcHcVERBFqea_nWMKPnmQb9XaItudM6A" alt="Tranpa En Altamar"></a>
+            <p>Tranpa En Altamar</p>
+        </div>
+        <div class="movie" data-title="El Lobo De Wall">
+            <a href="https://www.example.com/thetyrant" target="_blank"><img src="https://es.web.img3.acsta.net/pictures/210/615/21061596_20131129121836144.jpg" alt="El Lobo De Wall"></a>
+            <p>El Lobo De Wall Street</p>
+        </div>
+        <!-- Agregando más películas -->
+        <div class="movie" data-title="Dragon Ball Super hero">
+            <a href="https://www.example.com/avatar2" target="_blank"><img src="https://es.web.img3.acsta.net/pictures/22/07/06/14/16/5147637.jpg" alt="Avatar: The Way of Water"></a>
+            <p>Dragon Ball Super :Super hero</p>
+        </div>
+        <div class="movie" data-title="Jurassic World">
+            <a href="https://www.example.com/jurassicworld" target="_blank"><img src="https://dx35vtwkllhj9.cloudfront.net/universalstudios/jurassic-world-dominion/images/regions/us/onesheet.jpg" alt="Jurassic World: Dominion"></a>
+            <p>Jurassic World: Dominion</p>
+        </div>
+        <div class="movie" data-title="Pantera Negra">
+            <a href="https://www.example.com/blackpanther2" target="_blank"><img src="https://lumiere-a.akamaihd.net/v1/images/pantera_negra_-_wakanda_por_siempre_b5a0c156.png" alt="Black Panther: Wakanda Forever"></a>
+            <p>Pantera Negra :Wakanda Por Siempre</p>
+        </div>
+        <div class="movie" data-title="Spider Man">
+            <a href="https://www.example.com/spiderman" target="_blank"><img src="https://play-lh.googleusercontent.com/i0DAXWIGliyfSy6FWsbt7N_i1530o_rtkM220WgVGpRlI4OeOuIz-kL3JmZWFa3u7bjsaAfOdfUUMZSE1A" alt="Spider-Man: No Way Home"></a>
+            <p>Spider-Man: Sin Camino a Casa</p>
+        </div>
+        <div class="movie" data-title="The Batman">
+            <a href="https://www.example.com/thebatman" target="_blank"><img src="https://pics.filmaffinity.com/batman_caped_crusader-390585213-mmed.jpg" alt="The Batman"></a>
+            <p>The Batman <br> (El Batman)</p>
+        </div>
+        <div class="movie" data-title="Dune">
+            <a href="https://www.example.com/dune" target="_blank"><img src="https://images.cdn2.buscalibre.com/fit-in/360x360/0d/73/0d739e6e0e837d7637f97f9aad3639b4.jpg" alt="Dune"></a>
+            <p>Dune <br> (Duna)</p>
+        </div>
+        <!-- Duplicando las nuevas películas -->
+        <div class="movie" data-title="Avatar">
+            <a href="https://www.example.com/avatar2" target="_blank"><img src="https://musicart.xboxlive.com/7/baa66500-0000-0000-0000-000000000002/504/image.jpg?w=1920&h=1080" alt="Avatar: The Way of Water"></a>
+            <p>Avatar: El Camino del Agua</p>
+        </div>
+        <div class="movie" data-title="La leyenda del dragón:DRAKA">
+            <a href="https://www.example.com/jurassicworld" target="_blank"><img src="https://image.tmdb.org/t/p/original/5lL0D7oB3C66CncoxOwNeUbnaNS.jpg" alt="Jurassic World: Dominion"></a>
+            <p>La leyenda del dragón:DRAKA</p>
+        </div>
+        <div class="movie" data-title="Madagascar">
+            <a href="https://www.example.com/blackpanther2" target="_blank"><img src="https://es.web.img2.acsta.net/medias/nmedia/18/68/23/11/20027493.jpg" alt="Black Panther: Wakanda Forever"></a>
+            <p>Madagascar 1</p>
+        </div>
+        <div class="movie" data-title="Larva">
+            <a href="https://www.example.com/spiderman" target="_blank"><img src="https://pics.filmaffinity.com/larva-638932466-mmed.jpg" alt="Larva"></a>
+            <p>Larva T1</p>
+        </div>
+        <div class="movie" data-title="Jujutsu Kaisen">
+            <a href="https://www.example.com/thebatman" target="_blank"><img src="https://es.web.img3.acsta.net/pictures/20/09/14/10/31/4875617.jpg" alt="Jujutsu Kaisen"></a>
+            <p>Jujutsu Kaisen T1</p>
+        </div>
+        <div class="movie" data-title="Madagascar">
+            <a href="https://www.example.com/dune" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq0uaq3nxUAGsrWvkbwxqcMwdqkbS58kESAg&s" alt="Madagascar"></a>
+            <p>Madagascar 2</p>
+        </div>
+    </div>
+
+    <div class="coming-soon">Pronto Más Peliculas</div>
+
+    <footer>
+        <p>Síguenos en nuestras redes sociales:</p>
+        <div class="social-icons">
+            <a href="https://www.tiktok.com/@sevas.by?_t=8oxIdUQqiDm&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://youtube.com/@sevas_gaming?si=lQCNHJvTX8JX_SOM" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me/+V9KvEEAEXxFhOGZh" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+</body>
+</html>

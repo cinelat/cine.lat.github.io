@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicación Profesional de Películas y Animes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #181818;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(to bottom, #32a8a8, #181818);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        #search-container {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        #search {
+            flex: 1;
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        #search-icon {
+            cursor: pointer;
+            color: #aaa;
+            font-size: 32px;
+            margin-left: 10px;
+        }
+
+        .carousel-title {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 24px;
+            margin: 15px auto;
+            width: 80%;
+        }
+
+        #history-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background-color: #333;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #search-results {
+            width: 300px;
+            background-color: #333;
+            border-radius: 10px;
+            margin-top: 5px;
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #results-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #results-list li {
+            padding: 10px;
+            border-bottom: 1px solid #444;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        #results-list li:last-child {
+            border-bottom: none;
+        }
+
+        #results-list li:hover {
+            background-color: #555;
+        }
+
+        .history-icon {
+            margin-right: 10px;
+            color: #aaa;
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 300px;
+            overflow: hidden;
+            margin: auto;
+            touch-action: pan-y;
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-inner a {
+            flex: 0 0 100%;
+            height: 100%;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .carousel-indicators {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .carousel-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 0 5px;
+            background-color: #aaa;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background-color: #fff;
+        }
+
+        section {
+            margin: 20px;
+        }
+
+        section h2 {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .movie img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .view-all {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background: linear-gradient(to right, #8e2de2, #4a00e0);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .view-all:hover {
+            background: linear-gradient(to right, #7a1fc5, #3d00b1);
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #222;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: #fff;
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #32a8a8;
+        }
+
+        .alert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            text-align: center;
+        }
+
+        .alert h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .alert p {
+            margin: 10px 0 0;
+            font-size: 18px;
+        }
+
+        .alert button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #8e2de2;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .alert button:hover {
+            background-color: #7a1fc5;
+        }
+
+        .spinner {
+            margin: 20px auto;
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 5px solid #fff;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #large-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 20px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        #large-panel-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #large-panel-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="search-container">
+            <input type="text" id="search" placeholder="Buscar películas, series, géneros..." oninput="handleInput(event)" onkeydown="checkEnter(event)">
+            <i id="search-icon" class="fas fa-clock" onclick="toggleHistoryModal()"></i>
+            <div id="search-results">
+                <ul id="results-list"></ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="carousel-title">POPULARES</div>
+    
+    <section class="featured">
+        <div class="carousel" id="carousel">
+            <div class="carousel-inner">
+                <a href="https://www.example.com/imagen1" target="_blank"><img class="active" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-IBdS3FGHw87HRyWlE2GvVxZqbzvm5-GO3V_QTybxo8vIVinfk8YufHpx&s=10" alt="Imagen 1"></a>
+                <a href="https://www.example.com/imagen2" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXRraGkE4O1EaQxcXXWjk5qvSa2yf6h4KcWGf4FpmZPfNImCOeT7oxRBU&s=10" alt="Imagen 2"></a>
+                <a href="https://www.example.com/imagen3" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdA5Li0xbornHAUkz60JmxP2w7zUF9TaP3hg&usqp=CAU" alt="Imagen 3"></a>
+                <a href="https://www.example.com/imagen4" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDCs3crWsORFO4yL5wESHLPxLlaxffeBwTkg&usqp=CAU" alt="Imagen 4"></a>
+                <a href="https://www.example.com/imagen5" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPDPJn4Xs_Ro5tbJUv4epjmgdKaIlRT2GkHMXQ4Z_ZYKYufKc_os2YASxI&s=10" alt="Imagen 5"></a>
+            </div>
+        </div>
+        <div class="carousel-indicators">
+            <div class="carousel-indicator active" onclick="showSlide(0)"></div>
+            <div class="carousel-indicator" onclick="showSlide(1)"></div>
+            <div class="carousel-indicator" onclick="showSlide(2)"></div>
+            <div class="carousel-indicator" onclick="showSlide(3)"></div>
+            <div class="carousel-indicator" onclick="showSlide(4)"></div>
+        </div>
+    </section>
+
+    <section class="latest">
+        <h2>Últimos Estrenos</h2>
+        <div class="movies-grid" id="movies-grid">
+            <div class="movie" data-title="Inside Out 2">
+                <a href="http://127.0.0.1:5500/VER_MAS_ULTIMOS_ESTRENOS.html" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_G9ITpZqbfU-48E47INoB-6gTAPTw1qSu4QMP5VOCAHGWJQ6Edwb5zAgj&s=10" alt="Inside Out 2"></a>
+                <p>Inside Out 2</p>
+            </div>
+            <div class="movie" data-title="Emily en París">
+                <a href="https://www.example.com/emilyenparis" target="_blank"><img src="https://www.orientaserie.it/wp-content/uploads/2022/09/Emily-in-Paris-2-poster.jpeg" alt="Emily en París"></a>
+                <p>Emily en París - Temporada 3</p>
+            </div>
+            <div class="movie" data-title="Kung Fu Panda 4">
+                <a href="https://www.example.com/kungfupanda4" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqcy4JwgIxD2LUMe1lsYqHbpw_kdm7c9GaIF8PL1vPBdpw6AN_DSSbOk3G&s=10" alt="Kung Fu Panda 4"></a>
+                <p>Kung Fu Panda 4</p>
+            </div>
+            <div class="movie" data-title="American Murder">
+                <a href="https://www.example.com/americanmurder" target="_blank"><img src="https://m.media-amazon.com/images/M/MV5BNDIzMWZjNzYtMTcxMC00OTVkLWE2NDItYTdiNDhjNjRmYjdmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="American Murder"></a>
+                <p>American Murder: Laci Peterson</p>
+            </div>
+            <div class="movie" data-title="DeadPool 3">
+                <a href="https://www.example.com/deadpool3" target="_blank"><img src="https://i.ibb.co/m5qGfFr/dead-pool-3-oficial.png" alt="DeadPool 3"></a>
+                <p>DeadPool 3</p>
+            </div>
+            <div class="movie" data-title="The Tyrant">
+                <a href="paginas/vermas_estrenos.html.html" target="_blank"><img src="https://image.tmdb.org/t/p/w94_and_h141_bestv2/14xKxbF3Si8m5u0m5yPj9ZGlEkj.jpg" alt="The Tyrant"></a>
+                <p>The Tyrant - Temporada 4</p>
+            </div>
+        </div>
+        <a href="paginas/vermas_estrenos.html" class="view-all" onclick="showAlert(event, 'Últimos Estrenos')">Ver Todo</a>
+    </section>
+
+    <section class="action-section">
+        <h2>Acción</h2>
+        <div class="movies-grid" id="action-grid">
+            <div class="movie" data-title="John Wick 4">
+                <a href="https://www.example.com/johnwick4" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqGP3GhUsVcCgSFXbfJItgKXnDStR_WTfrWw&usqp=CAU" alt="John Wick 4"></a>
+                <p>John Wick 4</p>
+            </div>
+            <div class="movie" data-title="Fast X">
+                <a href="https://www.example.com/fastx" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTobADwxqcveAzOocjjdTBtdMtnYPJVKsm_6PqctbF0PDQWx9ZOFLw3wtoh&s=10" alt="Fast X"></a>
+                <p>Fast X</p>
+            </div>
+            <div class="movie" data-title="Mission: Impossible – Dead Reckoning">
+                <a href="https://www.example.com/missionimpossible" target="_blank"><img src="https://m.media-amazon.com/images/M/MV5BYzFiZjc1YzctMDY3Zi00NGE5LTlmNWEtN2Q3OWFjYjY1NGM2XkEyXkFqcGdeQXVyMTUyMTUzNjQ0._V1_.jpg" alt="Misión: Imposible"></a>
+                <p>Misión: Imposible – Dead Reckoning</p>
+            </div>
+        </div>
+        <a href="https://www.com.mx" class="view-all" onclick="showAlert(event, 'Películas de Acción')">Ver Todo</a>
+    </section>
+
+    <section class="horror-section">
+        <h2>Terror</h2>
+        <div class="movies-grid" id="horror-grid">
+            <div class="movie" data-title="The Conjuring: The Devil Made Me Do It">
+                <a href="https://www.example.com/theconjuring" target="_blank"><img src="https://mx.web.img3.acsta.net/pictures/19/03/20/19/26/1988298.jpg" alt="El Conjuro"></a>
+                <p>El Conjuro: El Diablo Me Hizo Hacerlo</p>
+            </div>
+            <div class="movie" data-title="A Quiet Place Part II">
+                <a href="https://www.example.com/aquietplace2" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8n4QK9t1AmQLHNnH84lgw1-X-U4V5UiF8WzRch1O3AUHWOQw4U3Ez9j8&s=10" alt="A Quiet Place Parte II"></a>
+                <p>A Quiet Place Parte II</p>
+            </div>
+            <div class="movie" data-title="Malignant">
+                <a href="https://www.example.com/malignant" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj7lQnD70M0LUKcbbIrW6Hw8T9LT1ZFCTuyA&usqp=CAU" alt="Malignant"></a>
+                <p>Malignant</p>
+            </div>
+        </div>
+        <a href="#" class="view-all" onclick="showAlert(event, 'Películas de Terror')">Ver Todo</a>
+    </section>
+
+    <section class="drama-section">
+        <h2>Doramas</h2>
+        <div class="movies-grid" id="drama-grid">
+            <div class="movie" data-title="Crash Landing on You">
+                <a href="https://www.example.com/crashlanding" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTSix_1onWeQ5d_BHJij8J_KGAatlzF1hmMqvtxiShVzSkZ5ee4jx8Dpvn&s=10" alt="Aterrizaje Forzoso"></a>
+                <p>Aterrizaje Forzoso</p>
+            </div>
+            <div class="movie" data-title="Itaewon Class">
+                <a href="https://www.example.com/itaewonclass" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZo9I0pDRa7RXosLVAb2Xx_RFM-g-rmaPhbQS_aITgdYFIFdgeMx4bz5U&s=10" alt="Itaewon Class"></a>
+                <p>Itaewon Class</p>
+            </div>
+            <div class="movie" data-title="Start-Up">
+                <a href="https://www.example.com/startup" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTexEMphXmKRGjrjjnoS1ISgKOU7QXvBc9bspOHwQdJd2T4MuoHXLNyiYBk&s=10" alt="Start-Up"></a>
+                <p>Start-Up</p>
+            </div>
+        </div>
+        <a href="#" class="view-all" onclick="showAlert(event, 'Doramas')">Ver Todo</a>
+    </section>
+
+    <section class="animation-section">
+        <h2>Animadas</h2>
+        <div class="movies-grid" id="animation-grid">
+            <div class="movie" data-title="Encanto">
+                <a href="https://www.example.com/encanto" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn3edGqXrkvq-OpBjE6QtKGyyMoFV9BOcItQ&usqp=CAU" alt="Encanto"></a>
+                <p>Encanto</p>
+            </div>
+            <div class="movie" data-title="Luca">
+                <a href="https://www.example.com/luca" target="_blank"><img src="https://es.web.img3.acsta.net/pictures/21/04/29/11/03/3538359.jpg" alt="Luca"></a>
+                <p>Luca</p>
+            </div>
+            <div class="movie" data-title="Spider-Man: Into the Spider-Verse">
+                <a href="https://www.example.com/spiderman" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNjJYN0C1naxEpbb8qrl-c0HE7qGyC7fC8HBgGRrtEQ7hg-z7nkf7mhv2K&s=10" alt="Spider-Man: Un Nuevo Universo"></a>
+                <p>Spider-Man: Un Nuevo Universo</p>
+            </div>
+        </div>
+        <a href="#" class="view-all" onclick="showAlert(event, 'Películas Animadas')">Ver Todo</a>
+    </section>
+
+    <section class="anime-section">
+        <h2>Animes</h2>
+        <div class="movies-grid" id="anime-grid">
+            <div class="movie" data-title="Attack on Titan">
+                <a href="https://www.example.com/attackontitan" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1bgUuPjF7vD5-Kh1sKqzQ5RF2qzLkYKbV0A&usqp=CAU" alt="Attack on Titan"></a>
+                <p>Attack on Titan</p>
+            </div>
+            <div class="movie" data-title="Naruto">
+                <a href="https://www.example.com/naruto" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6o0o8YHTxJ0J7cXbL0mO31vSbp7I8o6kG7A&usqp=CAU" alt="Naruto"></a>
+                <p>Naruto</p>
+            </div>
+            <div class="movie" data-title="One Piece">
+                <a href="https://www.example.com/onepiece" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4Ah5u0p-XQ6mN1hF9tLzP6Xg9Rzu6Gx3M5g&usqp=CAU" alt="One Piece"></a>
+                <p>One Piece</p>
+            </div>
+        </div>
+        <a href="#" class="view-all" onclick="showAlert(event, 'Animes')">Ver Todo</a>
+    </section>
+
+    <footer>
+        <p>Síguenos en nuestras redes sociales:</p>
+        <div class="social-icons">
+            <a href="https://www.tiktok.com/@sevas.by?_t=8oxIdUQqiDm&_r=1" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://youtube.com/@sevas_gaming?si=lQCNHJvTX8JX_SOM" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://t.me/+V9KvEEAEXxFhOGZh" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <div id="history-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeHistoryModal()">×</span>
+            <h2>Historial de Búsqueda</h2>
+            <ul id="history-list">
+            </ul>
+        </div>
+    </div>
+
+    <div class="alert" id="custom-alert">
+        <h2>Cargando.....</h2>
+        <p>Espere Un Momento Porfavor.</p>
+        <div class="spinner"></div>
+        <button onclick="closeAlert()">Cancelar</button>
+    </div>
+
+    <div id="large-panel">
+        <div id="large-panel-close" onclick="closeLargePanel()">×</div>
+        <div id="large-panel-content">
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        let slideInterval;
+        const carouselInner = document.querySelector('.carousel-inner');
+        const slides = document.querySelectorAll('.carousel-inner a');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const movies = document.querySelectorAll('.movie');
+        const resultsList = document.getElementById('results-list');
+        const searchResults = document.getElementById('search-results');
+        const historyList = document.getElementById('history-list');
+        const largePanel = document.getElementById('large-panel');
+        const largePanelContent = document.getElementById('large-panel-content');
+
+        function showSlide(index) {
+            currentSlide = index;
+            const offset = -currentSlide * 100;
+            carouselInner.style.transform = `translateX(${offset}%)`;
+            updateIndicators();
+        }
+
+        function updateIndicators() {
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function startSlideShow() {
+            slideInterval = setInterval(() => {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }, 3000);
+        }
+
+        let startX, endX;
+
+        carouselInner.addEventListener('touchstart', (event) => {
+            startX = event.touches[0].clientX;
+            clearInterval(slideInterval);
+        });
+
+        carouselInner.addEventListener('touchmove', (event) => {
+            endX = event.touches[0].clientX;
+        });
+
+        carouselInner.addEventListener('touchend', () => {
+            if (startX > endX + 50) {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            } else if (startX < endX - 50) {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                showSlide(currentSlide);
+            }
+            startSlideShow();
+        });
+
+        window.onload = startSlideShow;
+
+        function handleInput(event) {
+            const input = event.target.value.toLowerCase();
+            resultsList.innerHTML = '';
+            let resultsCount = 0;
+
+            movies.forEach(movie => {
+                const title = movie.getAttribute('data-title').toLowerCase();
+                if (title.includes(input)) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<i class="fas fa-clock history-icon"></i>${movie.getAttribute('data-title')}`;
+                    li.onclick = function() {
+                        document.getElementById('search').value = movie.getAttribute('data-title');
+                        addToHistory(movie.getAttribute('data-title'));
+                        searchResults.style.display = 'none';
+                    };
+                    resultsList.appendChild(li);
+                    resultsCount++;
+                }
+            });
+
+            searchResults.style.display = resultsCount > 0 ? 'block' : 'none';
+        }
+
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                const inputValue = document.getElementById('search').value;
+                if (inputValue) {
+                    addToHistory(inputValue);
+                    searchResults.style.display = 'none';
+                }
+            }
+        }
+
+        function toggleHistoryModal() {
+            const modal = document.getElementById('history-modal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('history-modal').style.display = 'none';
+        }
+
+        function addToHistory(title) {
+            const li = document.createElement('li');
+            li.textContent = title;
+            li.onclick = function() {
+                document.getElementById('search').value = title;
+                closeHistoryModal();
+            };
+            historyList.appendChild(li);
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('history-modal');
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function showAlert(event, sectionName) {
+            event.preventDefault();
+            const alertBox = document.getElementById('custom-alert');
+            alertBox.style.display = 'block';
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+                window.location.href = "https://www.example.com";
+            }, 3000);
+        }
+
+        function closeAlert() {
+            const alertBox = document.getElementById('custom-alert');
+            alertBox.style.display = 'none';
+        }
+
+        function showLargePanel(sectionName) {
+            const sectionContent = document.querySelector(`.${sectionName.toLowerCase().replace(/ /g, '-')}-section`).innerHTML;
+            largePanelContent.innerHTML = `<h2>${sectionName}</h2>${sectionContent}`;
+            largePanel.style.display = 'block';
+        }
+
+        function closeLargePanel() {
+            largePanel.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
